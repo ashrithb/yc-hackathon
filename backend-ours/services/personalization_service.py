@@ -7,7 +7,9 @@ from typing import Dict, List, Optional, Any
 import httpx
 import anthropic
 from openai import OpenAI
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class PersonalizationService:
     def __init__(self, frontend_src: Path, components_rel: str, app_rel: str):
@@ -42,6 +44,7 @@ class PersonalizationService:
             # 5) generate changes with Claude + apply with Morph using original content
             modified: Dict[str, str] = {}
             changed_any = False
+            last_changes: Dict = {"inferred": {"cohort_guess": "unknown"}}
             for file_path, content in original_app_files.items():
                 changes = await self._analyze_with_claude_raw(
                     raw_posthog_text=raw_posthog_text,
@@ -62,6 +65,7 @@ class PersonalizationService:
 
                 modified[file_path] = updated
                 changed_any = True
+                last_changes = changes  # Keep track of the last changes for cohort info
 
             # 6) write modified files
             for file_path, new_content in modified.items():
@@ -70,7 +74,7 @@ class PersonalizationService:
             # 7) commit only if there were real changes
             commit_hash = None
             if changed_any:
-                commit_hash = await self._git_commit(user_id=user_id, cohort=changes.get("inferred", {}).get("cohort_guess", "unknown"))
+                commit_hash = await self._git_commit(user_id=user_id, cohort=last_changes.get("inferred", {}).get("cohort_guess", "unknown"))
 
             # 8) disable loading (no restore; files already updated)
             await self._disable_loading_page(backup_map)
@@ -78,7 +82,7 @@ class PersonalizationService:
             return {
                 "success": True,
                 "user_id": user_id,
-                "cohort": changes.get("inferred", {}).get("cohort_guess", "unknown"),
+                "cohort": last_changes.get("inferred", {}).get("cohort_guess", "unknown"),
                 "files_modified": list(modified.keys()),
                 "commit_hash": commit_hash,
             }

@@ -14,7 +14,7 @@ load_dotenv()
 
 app = FastAPI()
 service = PersonalizationService(
-    frontend_src=Path("/Users/ashrith.bandla/Documents/exp-hackathon/yc-hackathon/frontend/src"),
+    frontend_src=Path("../frontend/src"),
     components_rel="components",
     app_rel="app",
 )
