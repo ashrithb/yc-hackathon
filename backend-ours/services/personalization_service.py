@@ -7,6 +7,7 @@ from typing import Dict, List, Optional, Any
 import httpx
 import anthropic
 from openai import OpenAI
+from datetime import datetime
 
 
 class PersonalizationService:
@@ -49,14 +50,13 @@ class PersonalizationService:
                     components_context=components_context,
                     file_path=file_path
                 )
-                updated = await self._apply_with_morph(original_content=content, changes=changes)
+                updated = await self._apply_with_morph(content, changes, file_path)
 
-                # If Morph returned effectively the same content (ignoring trailing newlines), inject header comment locally
+                # If Morph made no changes, inject header comment as last resort
                 if content.rstrip("\n") == updated.rstrip("\n"):
                     header = f"// Personalized (cohort guess): {changes.get('inferred', {}).get('cohort_guess', 'unknown')}"
                     updated = self._inject_header_comment(content, header)
 
-                # If STILL identical, skip writing
                 if content.rstrip("\n") == updated.rstrip("\n"):
                     continue
 
@@ -90,12 +90,16 @@ class PersonalizationService:
                 pass
             raise
 
-    def _load_posthog_raw_text(self) -> str:
+    def _load_posthog_raw_text(self, max_chars: int = 120_000) -> str:
         if not self.sample_posthog_path.exists():
             return ""
-        raw_text = self.sample_posthog_path.read_text()
-        # Keep raw as-is, but trim BOM to avoid weird tokens in the prompt
-        return raw_text.replace("\ufeff", "")
+        raw_text = self.sample_posthog_path.read_text().replace("\ufeff", "")
+        if len(raw_text) > max_chars:
+            head = raw_text[:60_000]
+            tail = raw_text[-60_000:]
+            raw_text = head + "\n... [TRUNCATED RAW POSTHOG LOGS] ...\n" + tail
+        self._write_log("raw-posthog.txt", raw_text[:5000])  # preview log
+        return raw_text
 
     def _parse_raw_posthog_events(self, events: List[List[Any]]) -> Dict[str, Any]:
         """
@@ -218,15 +222,20 @@ class PersonalizationService:
     async def _analyze_with_claude_raw(self, raw_posthog_text: str, file_content: str, components_context: str, file_path: str) -> Dict:
         sys_prompt = (
             "You are a senior frontend engineer performing safe, localized personalizations.\n"
-            "Hard constraints:\n"
-            "- Only modify the provided app file. Do not suggest edits to src/components.\n"
-            "- Do not remove or modify any PostHog analytics code, providers, hooks, or imports.\n"
-            "- Preserve imports and functionality.\n"
-            "- Prefer reordering, conditional rendering, and prop tweaks.\n"
-            "You are given raw PostHog-like event logs (unparsed). Infer user interests, priorities, and pain points directly from them.\n"
+            "Constraints:\n"
+            "- Modify ONLY the provided app file content.\n"
+            "- Do NOT edit src/components/*; they are reference-only.\n"
+            "- Do NOT touch PostHog analytics code/imports/hooks/providers.\n"
+            "- Prefer reordering, conditional rendering, prop tweaks.\n"
+            "- Keep TypeScript/JSX valid and imports intact.\n"
+            "- Output a JSON object with fields: instruction (string), code_edit (string), inferred (object).\n"
+            "- code_edit MUST use Morph Fast Apply style with // ... existing code ... between edited spans, minimal unchanged context.\n"
+            "- If unsure, make conservative improvements and explain in instruction.\n"
         )
+
         user_prompt = f"""
-{components_context}
+=== COMPONENTS (REFERENCE ONLY; DO NOT MODIFY) ===
+{components_context[:40000]}
 
 === CURRENT APP FILE TO MODIFY: {file_path} ===
 {file_content}
@@ -236,31 +245,19 @@ class PersonalizationService:
 
 Respond JSON only with:
 {{
-  "changes": [
-    {{"type": "reorder|hide|emphasize|conditional|props", "target": "ComponentName or section", "action": "what to do", "reason": "why"}}
-  ],
-  "summary": "strategy",
+  "instruction": "I am <describe edit succinctly, per Morph tool guidance>",
+  "code_edit": "// ... existing code ...\\n<edits here>\\n// ... existing code ...",
   "inferred": {{
     "cohort_guess": "string",
-    "top_clicks_guess": ["strings"],
-    "time_on_sections_guess": ["strings"]
+    "signals": ["strings"]
   }}
 }}
 """
-        resp = self.claude.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=2000,
-            system=sys_prompt,
-            messages=[{"role": "user", "content": user_prompt}],
-        )
+        self._write_log(f"claude-prompt-{Path(file_path).name}.txt", f"[SYSTEM]\\n{sys_prompt}\\n\\n[USER]\\n{user_prompt[:50000]}")
         try:
-<<<<<<< Updated upstream
-            return json.loads(resp.content[0].text)
-        except Exception:
-            return {"changes": [], "summary": "no-op", "inferred": {}}
-=======
+            
             resp = self.claude.messages.create(
-                model="claude-sonnet-4-20250514",
+                model="claude-4-sonnet-20250514",
                 max_tokens=1600,
                 system=sys_prompt,
                 messages=[{"role": "user", "content": user_prompt}],
@@ -271,42 +268,31 @@ Respond JSON only with:
         except Exception as e:
             self._write_log(f"claude-error-{Path(file_path).name}.txt", str(e))
             return {"instruction": "", "code_edit": "", "inferred": {"cohort_guess": "unknown", "signals": []}}
->>>>>>> Stashed changes
 
-    async def _apply_with_morph(self, original_content: str, changes: Dict) -> str:
-        instructions: List[str] = []
-        for i, ch in enumerate(changes.get("changes", []), 1):
-            t = ch.get("type", "?"); tgt = ch.get("target", "?"); act = ch.get("action", ""); rsn = ch.get("reason", "")
-            instructions.append(f"{i}. {t.upper()} {tgt}: {act}. Reason: {rsn}")
-
-        # If no instructions, ask Morph to at least add the header comment
-        instruction_block = "\n".join(instructions)
+    async def _apply_with_morph(self, original_content: str, changes: Dict, file_path: str) -> str:
+        instruction = (changes.get("instruction") or "").strip()
+        code_edit = (changes.get("code_edit") or "").strip()
         cohort_guess = changes.get("inferred", {}).get("cohort_guess", "unknown")
-        if not instruction_block.strip():
-            instruction_block = "Add the required header comment only."
 
-        morph_prompt = f"""
-Apply the following changes to this React/Next.js .tsx page file content. Keep TypeScript types intact.
+        # If Claude didn't produce a code_edit, just add header locally after returning original
+        if not instruction or not code_edit:
+            return original_content
 
-STRICT REQUIREMENTS:
-- Maintain all imports and functionality
-- Do NOT modify any PostHog analytics code (imports, hooks, provider usage)
-- Do NOT modify any component source; only change usage/order/props in this file
-- Add a file header comment: // Personalized (cohort guess): {cohort_guess}
-- Output the full updated file content only (no markdown fences).
+        payload = f"<instruction>{instruction}</instruction>\n<code>{original_content}</code>\n<update>{code_edit}</update>"
+        self._write_log(f"morph-request-{Path(file_path).name}.txt", payload[:50000])
 
-ORIGINAL FILE:
-{original_content}
-
-INSTRUCTIONS:
-{instruction_block}
-"""
-        resp = self.morph.chat.completions.create(
-            model="morph-v3-large",
-            messages=[{"role": "user", "content": morph_prompt}],
-            temperature=0.1,
-        )
-        return resp.choices[0].message.content
+        try:
+            resp = self.morph.chat.completions.create(
+                model="morph-v3-large",
+                messages=[{"role": "user", "content": payload}],
+                temperature=0.0,
+            )
+            merged = resp.choices[0].message.content
+            self._write_log(f"morph-response-{Path(file_path).name}.tsx", merged[:50000])
+            return merged
+        except Exception as e:
+            self._write_log(f"morph-error-{Path(file_path).name}.txt", str(e))
+            return original_content
 
     async def _enable_loading_page(self) -> Dict[str, str]:
         """Temporarily show a loading UI by swapping top-level route page(s). Returns backup map."""
@@ -359,3 +345,12 @@ INSTRUCTIONS:
             return "".join([lines[0], "\n", header + "\n"] + lines[1:])
         # Otherwise, put header at top
         return header + "\n" + original 
+
+    def _logs_dir(self) -> Path:
+        p = self.frontend_src.parent.parent / "backend-ours" / "logs"
+        p.mkdir(parents=True, exist_ok=True)
+        return p
+
+    def _write_log(self, name: str, content: str) -> None:
+        ts = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+        (self._logs_dir() / f"{ts}-{name}").write_text(content) 
