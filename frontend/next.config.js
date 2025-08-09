@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  distDir: 'out',
+  output: 'standalone', // Required for Freestyle deployment
+  // distDir: 'out', // Not needed for standalone mode
   allowedDevOrigins: ["*.preview.same-app.com"],
   images: {
     unoptimized: true,
@@ -36,4 +36,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

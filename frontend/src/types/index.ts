@@ -2,6 +2,7 @@ export interface NavigationItem {
   href: string;
   label: string;
   isActive?: boolean;
+  external?: boolean;
 }
 
 export interface Company {
