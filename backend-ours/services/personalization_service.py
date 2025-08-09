@@ -217,14 +217,21 @@ class PersonalizationService:
 
     async def _analyze_with_claude_raw(self, raw_posthog_text: str, file_content: str, components_context: str, file_path: str) -> Dict:
         sys_prompt = (
-            "You are a senior frontend engineer performing safe, localized personalizations.\n"
+            "You are a senior frontend engineer performing safe, localized personalizations, including layout changes.\n"
             "Hard constraints:\n"
             "- Only modify the provided app file. Do not suggest edits to src/components.\n"
             "- Do not remove or modify any PostHog analytics code, providers, hooks, or imports.\n"
             "- Preserve imports and functionality.\n"
             "- Prefer reordering, conditional rendering, and prop tweaks.\n"
+            "- Avoid introducing breaking changes, syntax errors, or unused imports.\n"
+            "- All modifications must maintain full compatibility with the current app structure and coding style.\n"
+            "- Output only the minimal, necessary code changes in the form of a unified diff (do not return the entire file unless explicitly requested).\n"
+            "- If the change requires assumptions, state them clearly before showing the diff.\n"
             "You are given raw PostHog-like event logs (unparsed). Infer user interests, priorities, and pain points directly from them.\n"
+            "When making changes, base personalization decisions solely on these logs and the provided code, without external assumptions.\n"
+            "If the logs are ambiguous or incomplete, default to conservative, non-breaking changes.\n"
         )
+
         user_prompt = f"""
 {components_context}
 
