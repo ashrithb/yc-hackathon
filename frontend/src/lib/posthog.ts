@@ -25,7 +25,12 @@ export const initPostHog = () => {
         api_host: 'https://app.posthog.com',
         capture_pageview: true,
         capture_pageleave: true,
-        autocapture: true,
+        autocapture: {
+          // Enable enhanced autocapture with heatmap data
+          css_selector_allowlist: ['[class*="button"]', 'button', 'a', '[role="button"]'],
+          element_allowlist: ['button', 'a', 'input', 'select', 'textarea', 'label'],
+          capture_attributes: ['class', 'id', 'href', 'type', 'name', 'role', 'aria-label'],
+        },
         session_recording: {
           maskAllInputs: false,
           maskInputOptions: {
@@ -33,10 +38,22 @@ export const initPostHog = () => {
             email: false,
           },
         },
+        // Enhanced properties for heatmaps
+        property_blacklist: [], // Don't blacklist any properties
+        capture_performance: true,
         debug: false, // Set to true if you need to debug
         loaded: (posthog) => {
           console.log('✅ PostHog loaded successfully!')
           console.log('📊 Project ID:', posthog.get_property('$project_id'))
+          
+          // Set user properties that are useful for heatmap analysis
+          posthog.register({
+            $initial_viewport_width: window.innerWidth,
+            $initial_viewport_height: window.innerHeight,
+            $initial_screen_width: window.screen.width,
+            $initial_screen_height: window.screen.height,
+            $user_agent: navigator.userAgent,
+          })
         },
         on_xhr_error: (err) => {
           console.error('❌ PostHog XHR error:', err)
