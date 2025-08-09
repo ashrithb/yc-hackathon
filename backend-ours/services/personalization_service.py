@@ -254,9 +254,24 @@ Respond JSON only with:
             messages=[{"role": "user", "content": user_prompt}],
         )
         try:
+<<<<<<< Updated upstream
             return json.loads(resp.content[0].text)
         except Exception:
             return {"changes": [], "summary": "no-op", "inferred": {}}
+=======
+            resp = self.claude.messages.create(
+                model="claude-sonnet-4-20250514",
+                max_tokens=1600,
+                system=sys_prompt,
+                messages=[{"role": "user", "content": user_prompt}],
+            )
+            text = resp.content[0].text
+            self._write_log(f"claude-output-{Path(file_path).name}.json", text)
+            return json.loads(text)
+        except Exception as e:
+            self._write_log(f"claude-error-{Path(file_path).name}.txt", str(e))
+            return {"instruction": "", "code_edit": "", "inferred": {"cohort_guess": "unknown", "signals": []}}
+>>>>>>> Stashed changes
 
     async def _apply_with_morph(self, original_content: str, changes: Dict) -> str:
         instructions: List[str] = []
