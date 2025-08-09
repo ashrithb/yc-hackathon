@@ -28,7 +28,7 @@ class PersonalizationService:
     async def personalize_website(self, user_id: str, posthog_data: Optional[Dict]) -> Dict:
         try:
             # 1) get analytics (from request or from sample file)
-            analytics = posthog_data or self._load_posthog_from_file()
+            raw_posthog_text = self._load_posthog_raw_text()
 
             # 2) read components context (read-only)
             components_context = self._read_components_context()
@@ -42,12 +42,10 @@ class PersonalizationService:
             # 5) generate changes with Claude + apply with Morph using original content
             modified: Dict[str, str] = {}
             for file_path, content in original_app_files.items():
-                changes = await self._analyze_with_claude(
-                    analytics=analytics, file_content=content, components_context=components_context, file_path=file_path
+                changes = await self._analyze_with_claude_raw(
+                    raw_posthog_text=raw_posthog_text, file_content=content, components_context=components_context, file_path=file_path
                 )
-                updated = await self._apply_with_morph(
-                    original_content=content, changes=changes, analytics=analytics
-                )
+                updated = await self._apply_with_morph(original_content=content, changes=changes)
                 modified[file_path] = updated
 
             # 6) write modified files
@@ -55,7 +53,7 @@ class PersonalizationService:
                 Path(file_path).write_text(new_content)
 
             # 7) commit
-            commit_hash = await self._git_commit(user_id=user_id, cohort=analytics.get("cohort", "unknown"))
+            commit_hash = await self._git_commit(user_id=user_id, cohort=changes.get("inferred", {}).get("cohort_guess", "unknown"))
 
             # 8) disable loading (no restore; files already updated)
             await self._disable_loading_page(backup_map)
@@ -63,7 +61,7 @@ class PersonalizationService:
             return {
                 "success": True,
                 "user_id": user_id,
-                "cohort": analytics.get("cohort", "unknown"),
+                "cohort": changes.get("inferred", {}).get("cohort_guess", "unknown"),
                 "files_modified": list(modified.keys()),
                 "commit_hash": commit_hash,
             }
@@ -75,21 +73,12 @@ class PersonalizationService:
                 pass
             raise
 
-    def _load_posthog_from_file(self) -> Dict[str, Any]:
-        """Load and parse raw PostHog-like events from the sample file into the structured analytics dict."""
+    def _load_posthog_raw_text(self) -> str:
         if not self.sample_posthog_path.exists():
-            return {
-                "cohort": "unknown",
-                "behavior_patterns": {"most_clicked": [], "time_on_sections": {}, "scroll_depth": {}},
-                "session_count": 1,
-            }
+            return ""
         raw_text = self.sample_posthog_path.read_text()
-        try:
-            events = json.loads(raw_text)
-        except Exception:
-            # Attempt to fix common formatting issues
-            events = json.loads(raw_text.strip())
-        return self._parse_raw_posthog_events(events)
+        # Keep raw as-is, but trim BOM to avoid weird tokens in the prompt
+        return raw_text.replace("\ufeff", "")
 
     def _parse_raw_posthog_events(self, events: List[List[Any]]) -> Dict[str, Any]:
         """
@@ -209,7 +198,7 @@ class PersonalizationService:
                 continue
         return allowed
 
-    async def _analyze_with_claude(self, analytics: Dict, file_content: str, components_context: str, file_path: str) -> Dict:
+    async def _analyze_with_claude_raw(self, raw_posthog_text: str, file_content: str, components_context: str, file_path: str) -> Dict:
         sys_prompt = (
             "You are a senior frontend engineer performing safe, localized personalizations.\n"
             "Hard constraints:\n"
@@ -217,6 +206,7 @@ class PersonalizationService:
             "- Do not remove or modify any PostHog analytics code, providers, hooks, or imports.\n"
             "- Preserve imports and functionality.\n"
             "- Prefer reordering, conditional rendering, and prop tweaks.\n"
+            "You are given raw PostHog-like event logs (unparsed). Infer user interests, priorities, and pain points directly from them.\n"
         )
         user_prompt = f"""
 {components_context}
@@ -224,19 +214,24 @@ class PersonalizationService:
 === CURRENT APP FILE TO MODIFY: {file_path} ===
 {file_content}
 
-=== USER ANALYTICS (from PostHog) ===
-{json.dumps(analytics, indent=2)}
+=== RAW POSTHOG EVENT LOGS (UNPARSED) ===
+{raw_posthog_text}
 
 Respond JSON only with:
 {{
   "changes": [
     {{"type": "reorder|hide|emphasize|conditional|props", "target": "ComponentName or section", "action": "what to do", "reason": "why"}}
   ],
-  "summary": "strategy"
+  "summary": "strategy",
+  "inferred": {{
+    "cohort_guess": "string",
+    "top_clicks_guess": ["strings"],
+    "time_on_sections_guess": ["strings"]
+  }}
 }}
 """
         resp = self.claude.messages.create(
-            model="claude-3-sonnet-20240229",
+            model="claude-sonnet-4-20250514",
             max_tokens=1200,
             system=sys_prompt,
             messages=[{"role": "user", "content": user_prompt}],
@@ -244,9 +239,9 @@ Respond JSON only with:
         try:
             return json.loads(resp.content[0].text)
         except Exception:
-            return {"changes": [], "summary": "no-op"}
+            return {"changes": [], "summary": "no-op", "inferred": {}}
 
-    async def _apply_with_morph(self, original_content: str, changes: Dict, analytics: Dict) -> str:
+    async def _apply_with_morph(self, original_content: str, changes: Dict) -> str:
         instructions: List[str] = []
         for i, ch in enumerate(changes.get("changes", []), 1):
             t = ch.get("type", "?")
@@ -256,6 +251,7 @@ Respond JSON only with:
             instructions.append(f"{i}. {t.upper()} {tgt}: {act}. Reason: {rsn}")
         instruction_block = "\n".join(instructions) or "No changes; return original code exactly."
 
+        cohort_guess = changes.get('inferred', {}).get('cohort_guess', 'unknown')
         morph_prompt = f"""
 Apply the following changes to this React/Next.js .tsx page file content. Keep TypeScript types intact.
 
@@ -263,7 +259,7 @@ STRICT REQUIREMENTS:
 - Maintain all imports and functionality
 - Do NOT modify any PostHog analytics code (imports, hooks, provider usage)
 - Do NOT modify any component source; only change usage/order/props in this file
-- Add a file header comment: // Personalized for cohort: {analytics.get('cohort', 'unknown')}
+- Add a file header comment: // Personalized (cohort guess): {cohort_guess}
 
 ORIGINAL FILE:
 {original_content}
