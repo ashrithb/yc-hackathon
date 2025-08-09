@@ -3,16 +3,6 @@ import Link from 'next/link'
 export default function Resources() {
   const resourceCategories = [
     {
-      title: "Legal & Fundraising",
-      icon: "⚖️",
-      resources: [
-        { name: "SAFE Documents", description: "Simple Agreement for Future Equity templates", link: "/safe" },
-        { name: "Cap Table Template", description: "Excel templates for tracking equity", link: "#" },
-        { name: "Legal Document Library", description: "Standard startup legal forms", link: "#" },
-        { name: "Fundraising Guide", description: "Complete guide to raising capital", link: "/library" }
-      ]
-    },
-    {
       title: "Product & Development",
       icon: "🛠️",
       resources: [
@@ -20,6 +10,16 @@ export default function Resources() {
         { name: "User Research Toolkit", description: "Templates for customer interviews", link: "#" },
         { name: "Product Metrics Dashboard", description: "Key metrics every startup should track", link: "#" },
         { name: "Technical Architecture Guide", description: "Best practices for startup tech stacks", link: "#" }
+      ]
+    },
+    {
+      title: "Legal & Fundraising",
+      icon: "⚖️",
+      resources: [
+        { name: "SAFE Documents", description: "Simple Agreement for Future Equity templates", link: "/safe" },
+        { name: "Cap Table Template", description: "Excel templates for tracking equity", link: "#" },
+        { name: "Legal Document Library", description: "Standard startup legal forms", link: "#" },
+        { name: "Fundraising Guide", description: "Complete guide to raising capital", link: "/library" }
       ]
     },
     {
@@ -46,16 +46,16 @@ export default function Resources() {
 
   const tools = [
     {
-      name: "Startup School",
-      description: "Free 10-week online course for founders",
-      type: "Course",
-      link: "/startup-school"
-    },
-    {
       name: "Work at a Startup",
       description: "Job board for startup positions",
       type: "Jobs",
       link: "/jobs"
+    },
+    {
+      name: "Startup School",
+      description: "Free 10-week online course for founders",
+      type: "Course",
+      link: "/startup-school"
     },
     {
       name: "Co-Founder Matching",
@@ -170,18 +170,6 @@ export default function Resources() {
           <h2 className="text-4xl font-bold text-center mb-12">Popular Downloads</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="border border-gray-200 p-6 rounded-lg">
-              <h3 className="text-xl font-bold mb-3">SAFE Agreement Templates</h3>
-              <p className="text-gray-600 mb-4">Complete set of Y Combinator's Simple Agreement for Future Equity documents.</p>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-gray-500">PDF • 500KB</span>
-                <span className="text-sm text-gray-500">50K+ downloads</span>
-              </div>
-              <Link href="/safe" className="block w-full bg-[#c6542c] text-white text-center py-2 rounded hover:bg-orange-600 transition-colors">
-                Download
-              </Link>
-            </div>
-
-            <div className="border border-gray-200 p-6 rounded-lg">
               <h3 className="text-xl font-bold mb-3">Financial Model Template</h3>
               <p className="text-gray-600 mb-4">Excel template for revenue projections, burn rate, and fundraising planning.</p>
               <div className="flex items-center justify-between mb-4">
@@ -203,6 +191,18 @@ export default function Resources() {
               <button className="w-full bg-[#c6542c] text-white py-2 rounded hover:bg-orange-600 transition-colors">
                 Download
               </button>
+            </div>
+
+            <div className="border border-gray-200 p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-3">SAFE Agreement Templates</h3>
+              <p className="text-gray-600 mb-4">Complete set of Y Combinator's Simple Agreement for Future Equity documents.</p>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm text-gray-500">PDF • 500KB</span>
+                <span className="text-sm text-gray-500">50K+ downloads</span>
+              </div>
+              <Link href="/safe" className="block w-full bg-[#c6542c] text-white text-center py-2 rounded hover:bg-orange-600 transition-colors">
+                Download
+              </Link>
             </div>
           </div>
         </div>
