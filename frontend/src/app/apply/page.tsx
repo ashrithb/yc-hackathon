@@ -110,7 +110,22 @@ export default function Apply() {
       {/* Application Form */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-3xl font-bold mb-8">Application Form</h2>
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold mb-4">Application Form</h2>
+            {/* Progress Indicator */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+                <span>Progress</span>
+                <span>{Math.round(Object.values(formData).filter(value => value.trim()).length / Object.keys(formData).length * 100)}% complete</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-[#c6542c] h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${Object.values(formData).filter(value => value.trim()).length / Object.keys(formData).length * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Info */}

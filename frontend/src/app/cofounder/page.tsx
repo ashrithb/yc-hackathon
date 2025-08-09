@@ -45,20 +45,20 @@ export default function CoFounder() {
       lookingFor: "Business co-founder for fintech startup"
     },
     {
-      name: "Michael Rodriguez",
-      skills: "Product, UX Design, Growth Marketing",
-      location: "New York, NY",
-      commitment: "Full-time",
-      experience: "PM at Meta, launched 3 products",
-      lookingFor: "Technical co-founder for social app"
-    },
-    {
       name: "Emily Thompson",
       skills: "Machine Learning, Python, Data Science",
       location: "Remote",
       commitment: "Full-time",
       experience: "ML Engineer at Google, PhD in AI",
       lookingFor: "Co-founder for AI healthcare startup"
+    },
+    {
+      name: "Michael Rodriguez",
+      skills: "Product, UX Design, Growth Marketing",
+      location: "New York, NY",
+      commitment: "Full-time",
+      experience: "PM at Meta, launched 3 products",
+      lookingFor: "Technical co-founder for social app"
     },
     {
       name: "David Kim",
