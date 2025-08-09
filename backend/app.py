@@ -5,8 +5,13 @@ import time
 from datetime import datetime
 import os
 import asyncio
+from dotenv import load_dotenv
 from morph_client import MorphClient
 from freestyle_client import FreestyleClient, GitManager
+from posthog_hybrid_client import PostHogHybridClient
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +23,15 @@ git_manager = GitManager(
     main_repo_path=os.getenv('MAIN_REPO_PATH', './deployment-repo'),
     original_repo_path=os.getenv('ORIGINAL_REPO_PATH', './original-website')
 )
+
+# Initialize PostHog hybrid client (works with project or personal API keys)
+posthog_client = None
+try:
+    posthog_client = PostHogHybridClient()
+    print("✅ PostHog hybrid client initialized successfully")
+except ValueError as e:
+    print(f"⚠️  PostHog client initialization failed: {e}")
+    print("   PostHog API endpoints will return mock data.")
 
 # Simple in-memory storage for demo (replace with real DB in production)
 user_data = {}
@@ -378,5 +392,223 @@ def seed_demo_data():
     user_data.update(demo_users)
     return jsonify({"status": "Demo data seeded", "users": list(demo_users.keys())})
 
+# PostHog API Endpoints
+@app.route('/api/posthog/send-event', methods=['POST'])
+def send_posthog_event():
+    """Send an event to PostHog using project API key"""
+    if not posthog_client:
+        return jsonify({
+            "error": "PostHog client not configured"
+        }), 500
+    
+    try:
+        data = request.json
+        user_id = data.get('user_id') or get_user_id(request)
+        event_name = data.get('event')
+        properties = data.get('properties', {})
+        
+        if not event_name:
+            return jsonify({"error": "Event name is required"}), 400
+        
+        result = posthog_client.send_event(user_id, event_name, properties)
+        return jsonify(result)
+        
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to send event to PostHog: {str(e)}"
+        }), 500
+
+@app.route('/api/posthog/info', methods=['GET'])
+def get_posthog_info():
+    """Get PostHog configuration and capabilities"""
+    if not posthog_client:
+        return jsonify({
+            "error": "PostHog client not configured"
+        })
+    
+    return jsonify(posthog_client.get_project_info())
+
+@app.route('/api/posthog/user/<user_id>', methods=['GET'])
+def get_posthog_user_data(user_id):
+    """Get all user interaction data from PostHog"""
+    if not posthog_client:
+        # Return error if PostHog client is not available
+        return jsonify({
+            "error": "PostHog client not configured. Please set POSTHOG_PROJECT_ID and POSTHOG_PERSONAL_API_KEY"
+        }), 500
+    
+    try:
+        days_back = request.args.get('days_back', 30, type=int)
+        user_data = posthog_client.get_user_data_from_posthog(user_id, days_back)
+        return jsonify(user_data)
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to fetch user data from PostHog: {str(e)}",
+            "user_id": user_id
+        }), 500
+
+@app.route('/api/posthog/users', methods=['GET'])
+def get_posthog_all_users():
+    """Get all users from PostHog"""
+    if not posthog_client:
+        # Return error if PostHog client is not available
+        return jsonify({
+            "error": "PostHog client not configured. Please set POSTHOG_PROJECT_ID and POSTHOG_PERSONAL_API_KEY"
+        }), 500
+    
+    try:
+        limit = request.args.get('limit', 100, type=int)
+        offset = request.args.get('offset', 0, type=int)
+        days_back = request.args.get('days_back', 30, type=int)
+        
+        users = posthog_client.get_all_users_from_posthog(limit, offset, days_back)
+        return jsonify({
+            "users": users,
+            "total": len(users),
+            "limit": limit,
+            "offset": offset,
+            "days_back": days_back
+        })
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to fetch users from PostHog: {str(e)}"
+        }), 500
+
+@app.route('/api/posthog/stats', methods=['GET'])
+def get_posthog_stats():
+    """Get summary statistics from PostHog"""
+    if not posthog_client:
+        return jsonify({
+            "error": "PostHog client not configured. Please set POSTHOG_PROJECT_ID and POSTHOG_PERSONAL_API_KEY"
+        })
+    
+    try:
+        stats = posthog_client.get_user_summary_stats()
+        return jsonify(stats)
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to fetch stats from PostHog: {str(e)}"
+        }), 500
+
+@app.route('/api/posthog/enhanced-profile/<user_id>', methods=['GET'])
+def get_enhanced_user_profile(user_id):
+    """Get user profile enhanced with PostHog data"""
+    # Get local user data
+    local_data = user_data.get(user_id, {})
+    
+    # Get PostHog data if available
+    posthog_data = {}
+    if posthog_client:
+        try:
+            posthog_data = posthog_client.get_user_data_from_posthog(user_id, 30)
+        except Exception as e:
+            posthog_data = {"error": str(e)}
+    
+    # Merge and enhance the data
+    enhanced_profile = {
+        "user_id": user_id,
+        "local_data": local_data,
+        "posthog_data": posthog_data,
+        "enhanced_metrics": {}
+    }
+    
+    # Calculate enhanced metrics if both data sources are available
+    if local_data and posthog_data.get("summary"):
+        ph_summary = posthog_data["summary"]
+        enhanced_profile["enhanced_metrics"] = {
+            "total_events_all_sources": local_data.get("page_depth", 0) + ph_summary.get("total_events", 0),
+            "consistency_score": calculate_consistency_score(local_data, ph_summary),
+            "engagement_trend": calculate_engagement_trend(local_data, ph_summary),
+            "optimization_confidence": calculate_optimization_confidence(local_data, ph_summary)
+        }
+    
+    return jsonify(enhanced_profile)
+
+@app.route('/api/posthog/heatmaps/<user_id>', methods=['GET'])
+def get_user_heatmaps(user_id):
+    """Get heatmap data for all pages visited by a user"""
+    if not posthog_client:
+        return jsonify({
+            "error": "PostHog client not configured. Please set POSTHOG_PROJECT_ID and POSTHOG_PERSONAL_API_KEY"
+        }), 500
+    
+    try:
+        days_back = request.args.get('days_back', 30, type=int)
+        heatmap_data = posthog_client.get_user_heatmaps_for_all_pages(user_id, days_back)
+        return jsonify(heatmap_data)
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to fetch heatmap data from PostHog: {str(e)}",
+            "user_id": user_id
+        }), 500
+
+@app.route('/api/posthog/delete-all-data', methods=['DELETE'])
+def delete_all_posthog_data():
+    """Delete all PostHog data - WARNING: This will permanently delete ALL events in your PostHog project"""
+    if not posthog_client:
+        return jsonify({
+            "error": "PostHog client not configured. Please set POSTHOG_PROJECT_ID and POSTHOG_PERSONAL_API_KEY"
+        }), 500
+    
+    # Safety check - require confirmation parameter
+    confirmation = request.args.get('confirm')
+    if confirmation != 'DELETE_ALL_DATA':
+        return jsonify({
+            "error": "This operation requires confirmation. Add ?confirm=DELETE_ALL_DATA to proceed.",
+            "warning": "This will PERMANENTLY delete ALL PostHog data in your project!",
+            "usage": "DELETE /api/posthog/delete-all-data?confirm=DELETE_ALL_DATA"
+        }), 400
+    
+    try:
+        result = posthog_client.delete_all_data()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            "error": f"Failed to delete PostHog data: {str(e)}"
+        }), 500
+
+def calculate_consistency_score(local_data, posthog_data):
+    """Calculate consistency between local and PostHog data"""
+    # Simple consistency scoring based on page views and interests
+    local_pages = local_data.get("page_depth", 0)
+    ph_pages = posthog_data.get("page_views", 0)
+    
+    if local_pages == 0 and ph_pages == 0:
+        return 1.0
+    
+    if local_pages == 0 or ph_pages == 0:
+        return 0.5
+    
+    consistency = 1.0 - abs(local_pages - ph_pages) / max(local_pages, ph_pages)
+    return max(0.0, min(1.0, consistency))
+
+def calculate_engagement_trend(local_data, posthog_data):
+    """Calculate engagement trend direction"""
+    local_avg_time = local_data.get("avg_session_time", 0)
+    local_visits = local_data.get("visit_count", 0)
+    
+    # Simple trend calculation - in real implementation, you'd compare time periods
+    engagement_score = (local_avg_time * 0.7) + (local_visits * 0.3)
+    
+    if engagement_score > 100:
+        return "increasing"
+    elif engagement_score > 50:
+        return "stable"
+    else:
+        return "declining"
+
+def calculate_optimization_confidence(local_data, posthog_data):
+    """Calculate confidence level for optimization recommendations"""
+    data_points = 0
+    
+    if local_data.get("visit_count", 0) > 0:
+        data_points += local_data["visit_count"]
+    if posthog_data.get("total_events", 0) > 0:
+        data_points += min(10, posthog_data["total_events"] // 5)  # Cap contribution
+    
+    # Convert to confidence percentage
+    confidence = min(95, data_points * 10)  # Max 95% confidence
+    return confidence
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=3001)
+    app.run(debug=True, host='0.0.0.0', port=5001)

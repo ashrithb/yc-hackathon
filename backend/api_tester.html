@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostHog API Tester</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+        
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #1d4ed8;
+        }
+        
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        .success {
+            background: #10b981;
+        }
+        
+        .success:hover {
+            background: #059669;
+        }
+        
+        .result {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 10px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .error {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #dc2626;
+        }
+        
+        .success-result {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #15803d;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .status.checking {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+        
+        .status.connected {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 PostHog API Tester</h1>
+    <div id="status" class="status checking">⏳ Checking server connection...</div>
+    
+    <div class="grid">
+        <!-- Left Column -->
+        <div>
+            <div class="container">
+                <h2>📊 PostHog Info</h2>
+                <p>Get your PostHog configuration and available features.</p>
+                <button onclick="getPostHogInfo()">Get PostHog Info</button>
+                <div id="info-result" class="result" style="display:none;"></div>
+            </div>
+            
+            <div class="container">
+                <h2>📤 Send Event</h2>
+                <div class="input-group">
+                    <label>User ID:</label>
+                    <input type="text" id="event-user-id" value="test_user_123" />
+                </div>
+                <div class="input-group">
+                    <label>Event Name:</label>
+                    <input type="text" id="event-name" value="api_test_click" />
+                </div>
+                <div class="input-group">
+                    <label>Properties (JSON):</label>
+                    <textarea id="event-properties" rows="3">{"page": "api_tester", "source": "html_test"}</textarea>
+                </div>
+                <button onclick="sendEvent()" class="success">Send Event to PostHog</button>
+                <div id="send-result" class="result" style="display:none;"></div>
+            </div>
+            
+            <div class="container">
+                <h2>👤 Get User Data</h2>
+                <div class="input-group">
+                    <label>User ID:</label>
+                    <input type="text" id="user-data-id" value="test_user_123" />
+                </div>
+                <div class="input-group">
+                    <label>Days Back:</label>
+                    <input type="number" id="user-days-back" value="30" />
+                </div>
+                <button onclick="getUserData()">Get User Data</button>
+                <div id="user-result" class="result" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div>
+            <div class="container">
+                <h2>👥 Get All Users</h2>
+                <div class="input-group">
+                    <label>Limit:</label>
+                    <input type="number" id="users-limit" value="10" />
+                </div>
+                <div class="input-group">
+                    <label>Days Back:</label>
+                    <input type="number" id="users-days-back" value="30" />
+                </div>
+                <button onclick="getAllUsers()">Get All Users</button>
+                <div id="users-result" class="result" style="display:none;"></div>
+            </div>
+            
+            <div class="container">
+                <h2>📈 Get Stats</h2>
+                <p>Get summary statistics from PostHog.</p>
+                <button onclick="getStats()">Get Summary Stats</button>
+                <div id="stats-result" class="result" style="display:none;"></div>
+            </div>
+            
+            <div class="container">
+                <h2>🚀 Enhanced Profile</h2>
+                <div class="input-group">
+                    <label>User ID:</label>
+                    <input type="text" id="enhanced-user-id" value="test_user_123" />
+                </div>
+                <button onclick="getEnhancedProfile()">Get Enhanced Profile</button>
+                <div id="enhanced-result" class="result" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5001/api/posthog';
+        
+        // Check server status on load
+        window.onload = function() {
+            checkServerStatus();
+        };
+        
+        async function checkServerStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/info`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('status').className = 'status connected';
+                    document.getElementById('status').innerHTML = '✅ Connected to PostHog API server';
+                } else {
+                    throw new Error('Server responded with error');
+                }
+            } catch (error) {
+                document.getElementById('status').className = 'status error';
+                document.getElementById('status').innerHTML = '❌ Cannot connect to server. Make sure backend is running on localhost:3001';
+            }
+        }
+        
+        async function getPostHogInfo() {
+            await makeRequest('/info', 'GET', null, 'info-result');
+        }
+        
+        async function sendEvent() {
+            const userId = document.getElementById('event-user-id').value;
+            const eventName = document.getElementById('event-name').value;
+            const propertiesText = document.getElementById('event-properties').value;
+            
+            if (!eventName) {
+                showResult('send-result', 'Event name is required', true);
+                return;
+            }
+            
+            let properties;
+            try {
+                properties = JSON.parse(propertiesText);
+            } catch (e) {
+                showResult('send-result', 'Invalid JSON in properties: ' + e.message, true);
+                return;
+            }
+            
+            const payload = {
+                user_id: userId,
+                event: eventName,
+                properties: properties
+            };
+            
+            await makeRequest('/send-event', 'POST', payload, 'send-result');
+        }
+        
+        async function getUserData() {
+            const userId = document.getElementById('user-data-id').value;
+            const daysBack = document.getElementById('user-days-back').value;
+            
+            if (!userId) {
+                showResult('user-result', 'User ID is required', true);
+                return;
+            }
+            
+            await makeRequest(`/user/${userId}?days_back=${daysBack}`, 'GET', null, 'user-result');
+        }
+        
+        async function getAllUsers() {
+            const limit = document.getElementById('users-limit').value;
+            const daysBack = document.getElementById('users-days-back').value;
+            
+            await makeRequest(`/users?limit=${limit}&days_back=${daysBack}`, 'GET', null, 'users-result');
+        }
+        
+        async function getStats() {
+            await makeRequest('/stats', 'GET', null, 'stats-result');
+        }
+        
+        async function getEnhancedProfile() {
+            const userId = document.getElementById('enhanced-user-id').value;
+            
+            if (!userId) {
+                showResult('enhanced-result', 'User ID is required', true);
+                return;
+            }
+            
+            await makeRequest(`/enhanced-profile/${userId}`, 'GET', null, 'enhanced-result');
+        }
+        
+        async function makeRequest(endpoint, method, payload, resultElementId) {
+            const resultElement = document.getElementById(resultElementId);
+            resultElement.style.display = 'block';
+            resultElement.className = 'result';
+            resultElement.textContent = '⏳ Loading...';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                };
+                
+                if (payload) {
+                    options.body = JSON.stringify(payload);
+                }
+                
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(resultElementId, JSON.stringify(data, null, 2), false);
+                } else {
+                    showResult(resultElementId, `Error ${response.status}: ${JSON.stringify(data, null, 2)}`, true);
+                }
+            } catch (error) {
+                showResult(resultElementId, `Network Error: ${error.message}`, true);
+            }
+        }
+        
+        function showResult(elementId, content, isError) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = isError ? 'result error' : 'result success-result';
+            element.textContent = content;
+        }
+    </script>
+</body>
+</html>
