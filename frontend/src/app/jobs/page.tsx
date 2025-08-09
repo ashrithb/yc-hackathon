@@ -73,12 +73,12 @@ export default function Jobs() {
 
   const categories = [
     { name: "Engineering", count: 1247, icon: "💻" },
+    { name: "Data Science", count: 167, icon: "📊" },
     { name: "Product", count: 423, icon: "📱" },
     { name: "Design", count: 312, icon: "🎨" },
     { name: "Marketing", count: 289, icon: "📢" },
     { name: "Sales", count: 234, icon: "💼" },
     { name: "Operations", count: 198, icon: "⚙️" },
-    { name: "Data Science", count: 167, icon: "📊" },
     { name: "Customer Success", count: 134, icon: "🤝" }
   ]
 
@@ -110,16 +110,17 @@ export default function Jobs() {
               <div>
                 <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#c6542c]">
                   <option>All Locations</option>
-                  <option>Remote</option>
                   <option>San Francisco</option>
-                  <option>New York</option>
                   <option>Los Angeles</option>
+                  <option>Remote</option>
+                  <option>New York</option>
                 </select>
               </div>
               <div>
                 <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#c6542c]">
                   <option>All Categories</option>
                   <option>Engineering</option>
+                  <option>Data Science</option>
                   <option>Product</option>
                   <option>Design</option>
                   <option>Marketing</option>
@@ -231,10 +232,10 @@ export default function Jobs() {
           <h2 className="text-4xl font-bold text-white text-center mb-12">Why Work at a YC Company?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="text-xl font-bold text-white mb-3">High Growth</h3>
+              <div className="text-4xl mb-4">⚡</div>
+              <h3 className="text-xl font-bold text-white mb-3">Cutting-Edge Tech</h3>
               <p className="text-orange-100">
-                Join companies that are scaling rapidly and making a real impact in their industries.
+                Work with the latest technologies and frameworks at companies pushing innovation forward.
               </p>
             </div>
             <div className="text-center">
@@ -245,10 +246,10 @@ export default function Jobs() {
               </p>
             </div>
             <div className="text-center">
-              <div className="text-4xl mb-4">🌟</div>
-              <h3 className="text-xl font-bold text-white mb-3">Learn from the Best</h3>
+              <div className="text-4xl mb-4">🚀</div>
+              <h3 className="text-xl font-bold text-white mb-3">High Impact</h3>
               <p className="text-orange-100">
-                Work alongside top talent and learn from founders who've built billion-dollar companies.
+                Your code and decisions directly impact millions of users and shape the future of technology.
               </p>
             </div>
           </div>

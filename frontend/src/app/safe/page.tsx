@@ -71,6 +71,45 @@ export default function SAFE() {
         </div>
       </section>
 
+      {/* Document Downloads */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-4xl font-bold text-center mb-12">Download SAFE Documents</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {documents.map((doc, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="text-xl font-bold mb-3">{doc.title}</h3>
+              <p className="text-gray-700 mb-4">{doc.description}</p>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <span>PDF • {doc.fileSize}</span>
+                  <span>•</span>
+                  <span>{doc.downloads} downloads</span>
+                </div>
+              </div>
+              <button
+                className="w-full bg-[#c6542c] text-white py-2 px-4 rounded hover:bg-orange-600 transition-colors"
+                onClick={() => trackEvent('safe_document_downloaded', {
+                  document_title: doc.title,
+                  file_size: doc.fileSize,
+                  downloads: doc.downloads
+                })}
+              >
+                Download PDF
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-gray-600 mb-4">
+            All SAFE documents are available under Creative Commons license.
+          </p>
+          <Link href="/library" className="text-[#c6542c] hover:underline">
+            Need help understanding SAFEs? Read our guide →
+          </Link>
+        </div>
+      </section>
+
       {/* Key Benefits */}
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,45 +149,6 @@ export default function SAFE() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Document Downloads */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">Download SAFE Documents</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {documents.map((doc, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h3 className="text-xl font-bold mb-3">{doc.title}</h3>
-              <p className="text-gray-700 mb-4">{doc.description}</p>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-4 text-sm text-gray-500">
-                  <span>PDF • {doc.fileSize}</span>
-                  <span>•</span>
-                  <span>{doc.downloads} downloads</span>
-                </div>
-              </div>
-              <button
-                className="w-full bg-[#c6542c] text-white py-2 px-4 rounded hover:bg-orange-600 transition-colors"
-                onClick={() => trackEvent('safe_document_downloaded', {
-                  document_title: doc.title,
-                  file_size: doc.fileSize,
-                  downloads: doc.downloads
-                })}
-              >
-                Download PDF
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">
-            All SAFE documents are available under Creative Commons license.
-          </p>
-          <Link href="/library" className="text-[#c6542c] hover:underline">
-            Need help understanding SAFEs? Read our guide →
-          </Link>
         </div>
       </section>
 

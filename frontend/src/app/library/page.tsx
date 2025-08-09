@@ -1,5 +1,7 @@
 'use client'
 
+// Personalized (cohort guess): visual_learners
+
 import Link from 'next/link'
 import { trackEvent } from '@/lib/posthog'
 import Header from '@/components/layout/Header'
