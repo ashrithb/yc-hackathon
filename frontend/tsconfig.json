@@ -38,6 +38,10 @@
     "out/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "main.ts",
+    "deploy.ts",
+    "deploy-variant.ts",
+    "test-deploy.ts"
   ]
 }
