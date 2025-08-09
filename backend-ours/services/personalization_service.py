@@ -41,19 +41,36 @@ class PersonalizationService:
 
             # 5) generate changes with Claude + apply with Morph using original content
             modified: Dict[str, str] = {}
+            changed_any = False
             for file_path, content in original_app_files.items():
                 changes = await self._analyze_with_claude_raw(
-                    raw_posthog_text=raw_posthog_text, file_content=content, components_context=components_context, file_path=file_path
+                    raw_posthog_text=raw_posthog_text,
+                    file_content=content,
+                    components_context=components_context,
+                    file_path=file_path
                 )
                 updated = await self._apply_with_morph(original_content=content, changes=changes)
+
+                # If Morph returned effectively the same content (ignoring trailing newlines), inject header comment locally
+                if content.rstrip("\n") == updated.rstrip("\n"):
+                    header = f"// Personalized (cohort guess): {changes.get('inferred', {}).get('cohort_guess', 'unknown')}"
+                    updated = self._inject_header_comment(content, header)
+
+                # If STILL identical, skip writing
+                if content.rstrip("\n") == updated.rstrip("\n"):
+                    continue
+
                 modified[file_path] = updated
+                changed_any = True
 
             # 6) write modified files
             for file_path, new_content in modified.items():
                 Path(file_path).write_text(new_content)
 
-            # 7) commit
-            commit_hash = await self._git_commit(user_id=user_id, cohort=changes.get("inferred", {}).get("cohort_guess", "unknown"))
+            # 7) commit only if there were real changes
+            commit_hash = None
+            if changed_any:
+                commit_hash = await self._git_commit(user_id=user_id, cohort=changes.get("inferred", {}).get("cohort_guess", "unknown"))
 
             # 8) disable loading (no restore; files already updated)
             await self._disable_loading_page(backup_map)
@@ -232,7 +249,7 @@ Respond JSON only with:
 """
         resp = self.claude.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=1200,
+            max_tokens=2000,
             system=sys_prompt,
             messages=[{"role": "user", "content": user_prompt}],
         )
@@ -244,14 +261,15 @@ Respond JSON only with:
     async def _apply_with_morph(self, original_content: str, changes: Dict) -> str:
         instructions: List[str] = []
         for i, ch in enumerate(changes.get("changes", []), 1):
-            t = ch.get("type", "?")
-            tgt = ch.get("target", "?")
-            act = ch.get("action", "")
-            rsn = ch.get("reason", "")
+            t = ch.get("type", "?"); tgt = ch.get("target", "?"); act = ch.get("action", ""); rsn = ch.get("reason", "")
             instructions.append(f"{i}. {t.upper()} {tgt}: {act}. Reason: {rsn}")
-        instruction_block = "\n".join(instructions) or "No changes; return original code exactly."
 
-        cohort_guess = changes.get('inferred', {}).get('cohort_guess', 'unknown')
+        # If no instructions, ask Morph to at least add the header comment
+        instruction_block = "\n".join(instructions)
+        cohort_guess = changes.get("inferred", {}).get("cohort_guess", "unknown")
+        if not instruction_block.strip():
+            instruction_block = "Add the required header comment only."
+
         morph_prompt = f"""
 Apply the following changes to this React/Next.js .tsx page file content. Keep TypeScript types intact.
 
@@ -260,6 +278,7 @@ STRICT REQUIREMENTS:
 - Do NOT modify any PostHog analytics code (imports, hooks, provider usage)
 - Do NOT modify any component source; only change usage/order/props in this file
 - Add a file header comment: // Personalized (cohort guess): {cohort_guess}
+- Output the full updated file content only (no markdown fences).
 
 ORIGINAL FILE:
 {original_content}
@@ -315,4 +334,13 @@ INSTRUCTIONS:
         msg = f"chore(personalize): {user_id} cohort={cohort}"
         subprocess.run(["git", "commit", "-m", msg], check=True, cwd=str(repo_root))
         h = subprocess.run(["git", "rev-parse", "HEAD"], check=True, cwd=str(repo_root), capture_output=True, text=True)
-        return h.stdout.strip() 
+        return h.stdout.strip()
+
+    def _inject_header_comment(self, original: str, header: str) -> str:
+        # Keep 'use client' at the very first statement if present
+        lines = original.splitlines(keepends=True)
+        if lines and (lines[0].strip() in ("'use client'", '"use client"')):
+            # Insert after the first line + a blank line
+            return "".join([lines[0], "\n", header + "\n"] + lines[1:])
+        # Otherwise, put header at top
+        return header + "\n" + original 

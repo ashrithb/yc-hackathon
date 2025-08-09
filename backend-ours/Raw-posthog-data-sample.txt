@@ -1,0 +1,181 @@
+[
+
+  [
+
+    "demo_user_0qwnrfade",
+
+    "$pageview",
+
+    "{\"$web_vitals_enabled_server_side\":true,\"$screen_height\":982,\"$is_identified\":true,\"$host\":\"\",\"$dead_clicks_enabled_server_side\":false,\"$insert_id\":\"2guj0bd454tnel3n\",\"$feature_flag_payloads\":{},\"$window_id\":\"0198901a-6509-711e-930c-0be5fec5931f\",\"$sdk_debug_replay_internal_buffer_length\":0,\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$lib\":\"web\",\"$config_defaults\":\"unset\",\"$replay_sample_rate\":null,\"$pageview_id\":\"0198901a-73a4-7f49-baf8-0466172ca4fc\",\"$referrer\":\"$direct\",\"$referring_domain\":\"$direct\",\"$screen_width\":1512,\"$browser_language\":\"en-US\",\"$autocapture_disabled_server_side\":false,\"$web_vitals_allowed_metrics\":null,\"$session_entry_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$sdk_debug_replay_internal_buffer_size\":0,\"$lib_rate_limit_remaining_tokens\":92.39,\"$viewport_height\":857,\"distinct_id\":\"demo_user_0qwnrfade\",\"$replay_minimum_duration\":null,\"$initialization_time\":\"2025-08-09T18:31:49.408Z\",\"$browser\":\"Chrome\",\"$active_feature_flags\":[],\"$timezone\":\"America/Los_Angeles\",\"$session_id\":\"0198900b-8f22-72c5-9fed-917d1f6026ba\",\"$configured_session_timeout_ms\":1800000,\"$session_entry_referrer\":\"$direct\",\"$browser_language_prefix\":\"en\",\"$os\":\"Mac OS X\",\"$sdk_debug_retry_queue_size\":0,\"$device_type\":\"Desktop\",\"$session_recording_network_payload_capture\":{\"capturePerformance\":{\"network_timing\":true,\"web_vitals\":true,\"web_vitals_allowed_metrics\":null}},\"$session_entry_referring_domain\":\"$direct\",\"$sdk_debug_session_start\":1754763333410,\"$exception_capture_enabled_server_side\":false,\"$feature_flag_request_id\":\"b8e4c2b6-bde7-4b14-86a0-90041c6e4b39\",\"$device_id\":\"0198900b-8f23-7f17-a8d6-f47cd91a5bea\",\"$os_version\":\"10.15.7\",\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$lib_version\":\"1.259.0\",\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"token\":\"phc_9Wabz0iIQK6q8JqhFY1uS8CeLTXmvclYRDuZUcvWGMD\",\"$sdk_debug_current_session_duration\":null,\"$session_recording_canvas_recording\":{},\"$time\":1754764309.412,\"$user_id\":\"demo_user_0qwnrfade\",\"title\":\"Portfolio Companies - ProductIQ Accelerator\",\"$timezone_offset\":420,\"$browser_version\":138,\"$session_entry_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$recording_status\":\"buffering\",\"$viewport_width\":1512,\"$ip\":\"64.71.26.103\",\"$set\":{\"$screen_height\":982,\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$referrer\":\"$direct\",\"$referring_domain\":\"$direct\",\"$screen_width\":1512,\"$viewport_height\":857,\"$browser\":\"Chrome\",\"$os\":\"Mac OS X\",\"$device_type\":\"Desktop\",\"$os_version\":\"10.15.7\",\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$browser_version\":138,\"$viewport_width\":1512,\"$geoip_city_name\":\"Redwood City\",\"$geoip_city_confidence\":null,\"$geoip_subdivision_2_name\":null,\"$geoip_subdivision_2_code\":null,\"$geoip_subdivision_1_name\":\"California\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\"},\"$set_once\":{\"$initial_screen_height\":982,\"$initial_raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$initial_referrer\":\"$direct\",\"$initial_referring_domain\":\"$direct\",\"$initial_screen_width\":1512,\"$initial_viewport_height\":857,\"$initial_browser\":\"Chrome\",\"$initial_os\":\"Mac OS X\",\"$initial_device_type\":\"Desktop\",\"$initial_os_version\":\"10.15.7\",\"$initial_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_browser_version\":138,\"$initial_viewport_width\":1512,\"$initial_geoip_city_name\":\"Redwood City\",\"$initial_geoip_city_confidence\":null,\"$initial_geoip_subdivision_2_name\":null,\"$initial_geoip_subdivision_2_code\":null,\"$initial_geoip_subdivision_1_name\":\"California\",\"$initial_geoip_subdivision_1_code\":\"CA\",\"$initial_geoip_country_name\":\"United States\",\"$initial_geoip_country_code\":\"US\",\"$initial_geoip_continent_name\":\"North America\",\"$initial_geoip_continent_code\":\"NA\",\"$initial_geoip_postal_code\":\"94061\",\"$initial_geoip_latitude\":37.472,\"$initial_geoip_longitude\":-122.2312,\"$initial_geoip_accuracy_radius\":100,\"$initial_geoip_time_zone\":\"America/Los_Angeles\"},\"$sent_at\":\"2025-08-09T18:31:49.412Z\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_subdivision_1_name\":\"California\",\"$transformations_succeeded\":[\"GeoIP (01988ffe-c4ef-0000-5ad8-c2455839c08b)\"]}",
+
+    "2025-08-09T18:31:49.450000Z",
+
+    "0198900b-8f22-72c5-9fed-917d1f6026ba",
+
+    "0198901a-6509-711e-930c-0be5fec5931f",
+
+    "file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "/Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    [],
+
+    []
+
+  ],
+
+  [
+
+    "demo_user_0qwnrfade",
+
+    "$autocapture",
+
+    "{\"$window_id\":\"0198901a-6509-711e-930c-0be5fec5931f\",\"$os_version\":\"10.15.7\",\"$session_id\":\"0198900b-8f22-72c5-9fed-917d1f6026ba\",\"$event_type\":\"click\",\"$is_identified\":true,\"$session_entry_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$replay_sample_rate\":null,\"$os\":\"Mac OS X\",\"$active_feature_flags\":[],\"$ce_version\":1,\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$referring_domain\":\"$direct\",\"$viewport_height\":857,\"$time\":1754764311.454,\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$timezone\":\"America/Los_Angeles\",\"$insert_id\":\"1o4ggx8qkbnw259k\",\"$initialization_time\":\"2025-08-09T18:31:49.408Z\",\"$web_vitals_allowed_metrics\":null,\"$exception_capture_enabled_server_side\":false,\"$feature_flag_payloads\":{},\"$browser\":\"Chrome\",\"$session_entry_referring_domain\":\"$direct\",\"$session_entry_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$session_recording_network_payload_capture\":{\"capturePerformance\":{\"network_timing\":true,\"web_vitals\":true,\"web_vitals_allowed_metrics\":null}},\"$replay_minimum_duration\":null,\"$screen_width\":1512,\"$viewport_width\":1512,\"$configured_session_timeout_ms\":1800000,\"$el_text\":\"Jobs\",\"distinct_id\":\"demo_user_0qwnrfade\",\"$sdk_debug_retry_queue_size\":0,\"$session_recording_canvas_recording\":{},\"$lib_version\":\"1.259.0\",\"$browser_language_prefix\":\"en\",\"$referrer\":\"$direct\",\"$config_defaults\":\"unset\",\"$lib\":\"web\",\"$dead_clicks_enabled_server_side\":false,\"$browser_version\":138,\"$browser_language\":\"en-US\",\"$session_entry_referrer\":\"$direct\",\"$lib_rate_limit_remaining_tokens\":99,\"$device_id\":\"0198900b-8f23-7f17-a8d6-f47cd91a5bea\",\"$device_type\":\"Desktop\",\"$sdk_debug_replay_internal_buffer_size\":0,\"$screen_height\":982,\"$sdk_debug_current_session_duration\":null,\"$host\":\"\",\"$feature_flag_request_id\":\"d3916c9a-3604-4a6c-b710-9d0f9773e08d\",\"$user_id\":\"demo_user_0qwnrfade\",\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$recording_status\":\"disabled\",\"$sdk_debug_session_start\":1754763333410,\"$web_vitals_enabled_server_side\":true,\"$pageview_id\":\"0198901a-73a4-7f49-baf8-0466172ca4fc\",\"token\":\"phc_9Wabz0iIQK6q8JqhFY1uS8CeLTXmvclYRDuZUcvWGMD\",\"$timezone_offset\":420,\"$autocapture_disabled_server_side\":false,\"$sdk_debug_replay_internal_buffer_length\":0,\"$ip\":\"64.71.26.103\",\"$set\":{\"$os_version\":\"10.15.7\",\"$os\":\"Mac OS X\",\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$referring_domain\":\"$direct\",\"$viewport_height\":857,\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$browser\":\"Chrome\",\"$screen_width\":1512,\"$viewport_width\":1512,\"$referrer\":\"$direct\",\"$browser_version\":138,\"$device_type\":\"Desktop\",\"$screen_height\":982,\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_city_confidence\":null,\"$geoip_subdivision_2_name\":null,\"$geoip_subdivision_2_code\":null,\"$geoip_subdivision_1_name\":\"California\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\"},\"$set_once\":{\"$initial_os_version\":\"10.15.7\",\"$initial_os\":\"Mac OS X\",\"$initial_raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$initial_referring_domain\":\"$direct\",\"$initial_viewport_height\":857,\"$initial_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_browser\":\"Chrome\",\"$initial_screen_width\":1512,\"$initial_viewport_width\":1512,\"$initial_referrer\":\"$direct\",\"$initial_browser_version\":138,\"$initial_device_type\":\"Desktop\",\"$initial_screen_height\":982,\"$initial_current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_geoip_city_name\":\"Redwood City\",\"$initial_geoip_city_confidence\":null,\"$initial_geoip_subdivision_2_name\":null,\"$initial_geoip_subdivision_2_code\":null,\"$initial_geoip_subdivision_1_name\":\"California\",\"$initial_geoip_subdivision_1_code\":\"CA\",\"$initial_geoip_country_name\":\"United States\",\"$initial_geoip_country_code\":\"US\",\"$initial_geoip_continent_name\":\"North America\",\"$initial_geoip_continent_code\":\"NA\",\"$initial_geoip_postal_code\":\"94061\",\"$initial_geoip_latitude\":37.472,\"$initial_geoip_longitude\":-122.2312,\"$initial_geoip_accuracy_radius\":100,\"$initial_geoip_time_zone\":\"America/Los_Angeles\"},\"$sent_at\":\"2025-08-09T18:31:51.468Z\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_subdivision_1_name\":\"California\",\"$transformations_succeeded\":[\"GeoIP (01988ffe-c4ef-0000-5ad8-c2455839c08b)\"]}",
+
+    "2025-08-09T18:31:51.564000Z",
+
+    "0198900b-8f22-72c5-9fed-917d1f6026ba",
+
+    "0198901a-6509-711e-930c-0be5fec5931f",
+
+    "file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "/Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    [
+
+      "Jobs"
+
+    ],
+
+    [
+
+      "a"
+
+    ]
+
+  ],
+
+  [
+
+    "demo_user_0qwnrfade",
+
+    "navigation_click",
+
+    "{\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$session_recording_canvas_recording\":{},\"$recording_status\":\"disabled\",\"page\":\"companies\",\"$window_id\":\"0198901a-6509-711e-930c-0be5fec5931f\",\"$web_vitals_enabled_server_side\":true,\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$lib_version\":\"1.259.0\",\"$session_entry_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$timezone\":\"America/Los_Angeles\",\"$screen_height\":982,\"$dead_clicks_enabled_server_side\":false,\"$screen_width\":1512,\"$lib\":\"web\",\"$feature_flag_payloads\":{},\"$device_type\":\"Desktop\",\"$session_entry_referrer\":\"$direct\",\"$sdk_debug_session_start\":1754763333410,\"$initialization_time\":\"2025-08-09T18:31:49.408Z\",\"$session_recording_network_payload_capture\":{\"capturePerformance\":{\"network_timing\":true,\"web_vitals\":true,\"web_vitals_allowed_metrics\":null}},\"$session_entry_referring_domain\":\"$direct\",\"$config_defaults\":\"unset\",\"$session_entry_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$time\":1754764311.456,\"$replay_minimum_duration\":null,\"$timezone_offset\":420,\"$referring_domain\":\"$direct\",\"distinct_id\":\"demo_user_0qwnrfade\",\"nav_item\":\"Jobs\",\"location\":\"header\",\"$user_id\":\"demo_user_0qwnrfade\",\"$device_id\":\"0198900b-8f23-7f17-a8d6-f47cd91a5bea\",\"$browser_language\":\"en-US\",\"$autocapture_disabled_server_side\":false,\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$os\":\"Mac OS X\",\"$browser_language_prefix\":\"en\",\"$viewport_height\":857,\"$viewport_width\":1512,\"$session_id\":\"0198900b-8f22-72c5-9fed-917d1f6026ba\",\"target\":\"jobs.html\",\"$pageview_id\":\"0198901a-73a4-7f49-baf8-0466172ca4fc\",\"$is_identified\":true,\"$lib_rate_limit_remaining_tokens\":98.03,\"$active_feature_flags\":[],\"$sdk_debug_replay_internal_buffer_length\":0,\"$feature_flag_request_id\":\"d3916c9a-3604-4a6c-b710-9d0f9773e08d\",\"$os_version\":\"10.15.7\",\"$host\":\"\",\"$replay_sample_rate\":null,\"$referrer\":\"$direct\",\"$browser\":\"Chrome\",\"$configured_session_timeout_ms\":1800000,\"$sdk_debug_replay_internal_buffer_size\":0,\"$exception_capture_enabled_server_side\":false,\"$sdk_debug_current_session_duration\":null,\"$web_vitals_allowed_metrics\":null,\"$insert_id\":\"v2jpo2m7tlbabm0h\",\"$sdk_debug_retry_queue_size\":0,\"token\":\"phc_9Wabz0iIQK6q8JqhFY1uS8CeLTXmvclYRDuZUcvWGMD\",\"$browser_version\":138,\"$ip\":\"64.71.26.103\",\"$set\":{\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$screen_height\":982,\"$screen_width\":1512,\"$device_type\":\"Desktop\",\"$referring_domain\":\"$direct\",\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$os\":\"Mac OS X\",\"$viewport_height\":857,\"$viewport_width\":1512,\"$os_version\":\"10.15.7\",\"$referrer\":\"$direct\",\"$browser\":\"Chrome\",\"$browser_version\":138,\"$geoip_city_name\":\"Redwood City\",\"$geoip_city_confidence\":null,\"$geoip_subdivision_2_name\":null,\"$geoip_subdivision_2_code\":null,\"$geoip_subdivision_1_name\":\"California\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\"},\"$set_once\":{\"$initial_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$initial_screen_height\":982,\"$initial_screen_width\":1512,\"$initial_device_type\":\"Desktop\",\"$initial_referring_domain\":\"$direct\",\"$initial_current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_os\":\"Mac OS X\",\"$initial_viewport_height\":857,\"$initial_viewport_width\":1512,\"$initial_os_version\":\"10.15.7\",\"$initial_referrer\":\"$direct\",\"$initial_browser\":\"Chrome\",\"$initial_browser_version\":138,\"$initial_geoip_city_name\":\"Redwood City\",\"$initial_geoip_city_confidence\":null,\"$initial_geoip_subdivision_2_name\":null,\"$initial_geoip_subdivision_2_code\":null,\"$initial_geoip_subdivision_1_name\":\"California\",\"$initial_geoip_subdivision_1_code\":\"CA\",\"$initial_geoip_country_name\":\"United States\",\"$initial_geoip_country_code\":\"US\",\"$initial_geoip_continent_name\":\"North America\",\"$initial_geoip_continent_code\":\"NA\",\"$initial_geoip_postal_code\":\"94061\",\"$initial_geoip_latitude\":37.472,\"$initial_geoip_longitude\":-122.2312,\"$initial_geoip_accuracy_radius\":100,\"$initial_geoip_time_zone\":\"America/Los_Angeles\"},\"$sent_at\":\"2025-08-09T18:31:51.468Z\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_subdivision_1_name\":\"California\",\"$transformations_succeeded\":[\"GeoIP (01988ffe-c4ef-0000-5ad8-c2455839c08b)\"]}",
+
+    "2025-08-09T18:31:51.566000Z",
+
+    "0198900b-8f22-72c5-9fed-917d1f6026ba",
+
+    "0198901a-6509-711e-930c-0be5fec5931f",
+
+    "file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "/Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    [],
+
+    []
+
+  ],
+
+  [
+
+    "demo_user_0qwnrfade",
+
+    "page_exit",
+
+    "{\"token\":\"phc_9Wabz0iIQK6q8JqhFY1uS8CeLTXmvclYRDuZUcvWGMD\",\"$lib\":\"web\",\"$sdk_debug_session_start\":1754763333410,\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$lib_rate_limit_remaining_tokens\":97.05,\"$device_type\":\"Desktop\",\"$initialization_time\":\"2025-08-09T18:31:49.408Z\",\"$session_id\":\"0198900b-8f22-72c5-9fed-917d1f6026ba\",\"$browser_language_prefix\":\"en\",\"$window_id\":\"0198901a-6509-711e-930c-0be5fec5931f\",\"$active_feature_flags\":[],\"$os\":\"Mac OS X\",\"$timezone_offset\":420,\"$session_recording_canvas_recording\":{},\"$feature_flag_request_id\":\"d3916c9a-3604-4a6c-b710-9d0f9773e08d\",\"$sdk_debug_replay_internal_buffer_size\":0,\"$session_entry_referring_domain\":\"$direct\",\"$browser\":\"Chrome\",\"$screen_height\":982,\"$config_defaults\":\"unset\",\"$timezone\":\"America/Los_Angeles\",\"$sdk_debug_replay_internal_buffer_length\":0,\"$viewport_height\":857,\"$replay_minimum_duration\":null,\"$device_id\":\"0198900b-8f23-7f17-a8d6-f47cd91a5bea\",\"$autocapture_disabled_server_side\":false,\"$exception_capture_enabled_server_side\":false,\"$screen_width\":1512,\"$viewport_width\":1512,\"$referring_domain\":\"$direct\",\"$sdk_debug_retry_queue_size\":0,\"page\":\"companies\",\"$browser_version\":138,\"$host\":\"\",\"$feature_flag_payloads\":{},\"$session_entry_referrer\":\"$direct\",\"$pageview_id\":\"0198901a-73a4-7f49-baf8-0466172ca4fc\",\"$browser_language\":\"en-US\",\"time_on_page_seconds\":2,\"$is_identified\":true,\"$web_vitals_enabled_server_side\":true,\"$web_vitals_allowed_metrics\":null,\"$recording_status\":\"disabled\",\"$lib_version\":\"1.259.0\",\"max_scroll_depth\":0,\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$os_version\":\"10.15.7\",\"$replay_sample_rate\":null,\"$session_recording_network_payload_capture\":{\"capturePerformance\":{\"network_timing\":true,\"web_vitals\":true,\"web_vitals_allowed_metrics\":null}},\"$user_id\":\"demo_user_0qwnrfade\",\"$insert_id\":\"buikpz32r1js4bds\",\"distinct_id\":\"demo_user_0qwnrfade\",\"$time\":1754764311.458,\"$referrer\":\"$direct\",\"$session_entry_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$configured_session_timeout_ms\":1800000,\"$sdk_debug_current_session_duration\":null,\"$session_entry_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$dead_clicks_enabled_server_side\":false,\"$ip\":\"64.71.26.103\",\"$set\":{\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$device_type\":\"Desktop\",\"$os\":\"Mac OS X\",\"$browser\":\"Chrome\",\"$screen_height\":982,\"$viewport_height\":857,\"$screen_width\":1512,\"$viewport_width\":1512,\"$referring_domain\":\"$direct\",\"$browser_version\":138,\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$os_version\":\"10.15.7\",\"$referrer\":\"$direct\",\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_city_confidence\":null,\"$geoip_subdivision_2_name\":null,\"$geoip_subdivision_2_code\":null,\"$geoip_subdivision_1_name\":\"California\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\"},\"$set_once\":{\"$initial_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_device_type\":\"Desktop\",\"$initial_os\":\"Mac OS X\",\"$initial_browser\":\"Chrome\",\"$initial_screen_height\":982,\"$initial_viewport_height\":857,\"$initial_screen_width\":1512,\"$initial_viewport_width\":1512,\"$initial_referring_domain\":\"$direct\",\"$initial_browser_version\":138,\"$initial_current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_os_version\":\"10.15.7\",\"$initial_referrer\":\"$direct\",\"$initial_raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$initial_geoip_city_name\":\"Redwood City\",\"$initial_geoip_city_confidence\":null,\"$initial_geoip_subdivision_2_name\":null,\"$initial_geoip_subdivision_2_code\":null,\"$initial_geoip_subdivision_1_name\":\"California\",\"$initial_geoip_subdivision_1_code\":\"CA\",\"$initial_geoip_country_name\":\"United States\",\"$initial_geoip_country_code\":\"US\",\"$initial_geoip_continent_name\":\"North America\",\"$initial_geoip_continent_code\":\"NA\",\"$initial_geoip_postal_code\":\"94061\",\"$initial_geoip_latitude\":37.472,\"$initial_geoip_longitude\":-122.2312,\"$initial_geoip_accuracy_radius\":100,\"$initial_geoip_time_zone\":\"America/Los_Angeles\"},\"$sent_at\":\"2025-08-09T18:31:51.468Z\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_subdivision_1_name\":\"California\",\"$transformations_succeeded\":[\"GeoIP (01988ffe-c4ef-0000-5ad8-c2455839c08b)\"]}",
+
+    "2025-08-09T18:31:51.568000Z",
+
+    "0198900b-8f22-72c5-9fed-917d1f6026ba",
+
+    "0198901a-6509-711e-930c-0be5fec5931f",
+
+    "file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "/Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    [],
+
+    []
+
+  ],
+
+  [
+
+    "demo_user_0qwnrfade",
+
+    "$pageleave",
+
+    "{\"$config_defaults\":\"unset\",\"$lib_version\":\"1.259.0\",\"$timezone_offset\":420,\"$screen_width\":1512,\"$time\":1754764311.466,\"distinct_id\":\"demo_user_0qwnrfade\",\"$replay_minimum_duration\":null,\"$prev_pageview_last_scroll\":0,\"$device_id\":\"0198900b-8f23-7f17-a8d6-f47cd91a5bea\",\"$dead_clicks_enabled_server_side\":false,\"$prev_pageview_id\":\"0198901a-73a4-7f49-baf8-0466172ca4fc\",\"$viewport_width\":1512,\"$prev_pageview_last_content_percentage\":0.200046685340803,\"$os_version\":\"10.15.7\",\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$session_entry_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$prev_pageview_max_content_percentage\":0.200046685340803,\"$browser_language_prefix\":\"en\",\"$sdk_debug_retry_queue_size\":0,\"$configured_session_timeout_ms\":1800000,\"$referring_domain\":\"$direct\",\"$prev_pageview_last_scroll_percentage\":0,\"$prev_pageview_max_scroll_percentage\":0,\"$window_id\":\"0198901a-6509-711e-930c-0be5fec5931f\",\"$prev_pageview_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$insert_id\":\"icn38cykobs5a6s3\",\"$user_id\":\"demo_user_0qwnrfade\",\"$device_type\":\"Desktop\",\"$session_entry_referrer\":\"$direct\",\"$prev_pageview_max_content\":857,\"$lib\":\"web\",\"$autocapture_disabled_server_side\":false,\"$screen_height\":982,\"$feature_flag_payloads\":{},\"$sdk_debug_current_session_duration\":null,\"$session_entry_referring_domain\":\"$direct\",\"$timezone\":\"America/Los_Angeles\",\"token\":\"phc_9Wabz0iIQK6q8JqhFY1uS8CeLTXmvclYRDuZUcvWGMD\",\"$pageview_id\":\"0198901a-73a4-7f49-baf8-0466172ca4fc\",\"$session_recording_canvas_recording\":{},\"$session_entry_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/demo.html\",\"$is_identified\":true,\"$browser_version\":138,\"$referrer\":\"$direct\",\"$session_recording_network_payload_capture\":{\"capturePerformance\":{\"network_timing\":true,\"web_vitals\":true,\"web_vitals_allowed_metrics\":null}},\"$feature_flag_request_id\":\"d3916c9a-3604-4a6c-b710-9d0f9773e08d\",\"$sdk_debug_session_start\":1754763333410,\"$exception_capture_enabled_server_side\":false,\"$browser_language\":\"en-US\",\"$session_id\":\"0198900b-8f22-72c5-9fed-917d1f6026ba\",\"$prev_pageview_max_scroll\":0,\"$recording_status\":\"disabled\",\"$browser\":\"Chrome\",\"$host\":\"\",\"$web_vitals_enabled_server_side\":true,\"$active_feature_flags\":[],\"$sdk_debug_replay_internal_buffer_length\":0,\"$sdk_debug_replay_internal_buffer_size\":0,\"$prev_pageview_duration\":2.054,\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$lib_rate_limit_remaining_tokens\":95.14,\"$os\":\"Mac OS X\",\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$replay_sample_rate\":null,\"$web_vitals_allowed_metrics\":null,\"$prev_pageview_last_content\":857,\"$viewport_height\":857,\"$initialization_time\":\"2025-08-09T18:31:49.408Z\",\"$ip\":\"64.71.26.103\",\"$set\":{\"$screen_width\":1512,\"$viewport_width\":1512,\"$os_version\":\"10.15.7\",\"$current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$referring_domain\":\"$direct\",\"$device_type\":\"Desktop\",\"$screen_height\":982,\"$browser_version\":138,\"$referrer\":\"$direct\",\"$browser\":\"Chrome\",\"$pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$os\":\"Mac OS X\",\"$raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$viewport_height\":857,\"$geoip_city_name\":\"Redwood City\",\"$geoip_city_confidence\":null,\"$geoip_subdivision_2_name\":null,\"$geoip_subdivision_2_code\":null,\"$geoip_subdivision_1_name\":\"California\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\"},\"$set_once\":{\"$initial_screen_width\":1512,\"$initial_viewport_width\":1512,\"$initial_os_version\":\"10.15.7\",\"$initial_current_url\":\"file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_referring_domain\":\"$direct\",\"$initial_device_type\":\"Desktop\",\"$initial_screen_height\":982,\"$initial_browser_version\":138,\"$initial_referrer\":\"$direct\",\"$initial_browser\":\"Chrome\",\"$initial_pathname\":\"/Users/ypatel/Desktop/projects/yc-hackathon/companies.html\",\"$initial_os\":\"Mac OS X\",\"$initial_raw_user_agent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\",\"$initial_viewport_height\":857,\"$initial_geoip_city_name\":\"Redwood City\",\"$initial_geoip_city_confidence\":null,\"$initial_geoip_subdivision_2_name\":null,\"$initial_geoip_subdivision_2_code\":null,\"$initial_geoip_subdivision_1_name\":\"California\",\"$initial_geoip_subdivision_1_code\":\"CA\",\"$initial_geoip_country_name\":\"United States\",\"$initial_geoip_country_code\":\"US\",\"$initial_geoip_continent_name\":\"North America\",\"$initial_geoip_continent_code\":\"NA\",\"$initial_geoip_postal_code\":\"94061\",\"$initial_geoip_latitude\":37.472,\"$initial_geoip_longitude\":-122.2312,\"$initial_geoip_accuracy_radius\":100,\"$initial_geoip_time_zone\":\"America/Los_Angeles\"},\"$sent_at\":\"2025-08-09T18:31:51.468Z\",\"$geoip_city_name\":\"Redwood City\",\"$geoip_country_name\":\"United States\",\"$geoip_country_code\":\"US\",\"$geoip_continent_name\":\"North America\",\"$geoip_continent_code\":\"NA\",\"$geoip_postal_code\":\"94061\",\"$geoip_latitude\":37.472,\"$geoip_longitude\":-122.2312,\"$geoip_accuracy_radius\":100,\"$geoip_time_zone\":\"America/Los_Angeles\",\"$geoip_subdivision_1_code\":\"CA\",\"$geoip_subdivision_1_name\":\"California\",\"$transformations_succeeded\":[\"GeoIP (01988ffe-c4ef-0000-5ad8-c2455839c08b)\"]}",
+
+    "2025-08-09T18:31:51.577000Z",
+
+    "0198900b-8f22-72c5-9fed-917d1f6026ba",
+
+    "0198901a-6509-711e-930c-0be5fec5931f",
+
+    "file:///Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "/Users/ypatel/Desktop/projects/yc-hackathon/companies.html",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    "",
+
+    [],
+
+    []
+
+  ]
+
+]
