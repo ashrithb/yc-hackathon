@@ -8,6 +8,8 @@ import httpx
 import anthropic
 from openai import OpenAI
 
+PERSONALIZATION_SERVICE_PATH = Path(__file__).resolve()
+
 
 class PersonalizationService:
     def __init__(self, frontend_src: Path, components_rel: str, app_rel: str):
@@ -22,7 +24,7 @@ class PersonalizationService:
         self.morph = OpenAI(api_key=morph_key, base_url="https://api.morphllm.com/v1")
         # Hardcoded sample file for demo runs
         self.sample_posthog_path = Path(
-            "/Users/ashrith.bandla/Documents/exp-hackathon/yc-hackathon/backend-ours/Raw-posthog-data-sample.txt"
+            PERSONALIZATION_SERVICE_PATH.parent.parent / "Raw-posthog-data-sample.txt"
         )
 
     async def personalize_website(self, user_id: str, posthog_data: Optional[Dict]) -> Dict:
@@ -42,6 +44,8 @@ class PersonalizationService:
             # 5) generate changes with Claude + apply with Morph using original content
             modified: Dict[str, str] = {}
             changed_any = False
+            changes: Dict[str, Any] = {"changes": [], "summary": "no-op", "inferred": {"cohort_guess": "unknown"}}
+            print("original_app_files", original_app_files)
             for file_path, content in original_app_files.items():
                 changes = await self._analyze_with_claude_raw(
                     raw_posthog_text=raw_posthog_text,
@@ -69,11 +73,13 @@ class PersonalizationService:
 
             # 7) commit only if there were real changes
             commit_hash = None
+
             if changed_any:
                 commit_hash = await self._git_commit(user_id=user_id, cohort=changes.get("inferred", {}).get("cohort_guess", "unknown"))
 
             # 8) disable loading (no restore; files already updated)
             await self._disable_loading_page(backup_map)
+            print("modified", modified)
 
             return {
                 "success": True,
@@ -83,7 +89,7 @@ class PersonalizationService:
                 "commit_hash": commit_hash,
             }
         except Exception:
-            # restore files from backup
+            # restore files from backup``
             try:
                 await self._disable_loading_page(backup_map, restore=True)  # type: ignore[name-defined]
             except Exception:
@@ -213,6 +219,7 @@ class PersonalizationService:
                 allowed[str(p)] = p.read_text()
             except Exception:
                 continue
+        print("allowed", allowed)
         return allowed
 
     async def _analyze_with_claude_raw(self, raw_posthog_text: str, file_content: str, components_context: str, file_path: str) -> Dict:

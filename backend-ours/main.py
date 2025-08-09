@@ -12,9 +12,13 @@ from services.personalization_service import PersonalizationService
 
 load_dotenv()
 
+# Get absolute path of current script
+SCRIPT_PATH = Path(__file__).resolve()
+
+
 app = FastAPI()
 service = PersonalizationService(
-    frontend_src=Path("/Users/ashrith.bandla/Documents/exp-hackathon/yc-hackathon/frontend/src"),
+    frontend_src=SCRIPT_PATH.parent.parent / "frontend" / "src",
     components_rel="components",
     app_rel="app",
 )
