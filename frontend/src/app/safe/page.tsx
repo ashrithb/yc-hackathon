@@ -4,6 +4,7 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { trackEvent } from '@/lib/posthog'
+import Link from 'next/link'
 
 export default function SAFE() {
   const documents = [
