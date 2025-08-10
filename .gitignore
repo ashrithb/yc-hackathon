@@ -1,0 +1,13 @@
+# AI Service Git Versioning
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+*.log
+
+# Keep PersonalizationService and main files
+!services/
+!*.py
+!README.md
