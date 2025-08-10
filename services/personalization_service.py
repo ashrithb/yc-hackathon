@@ -76,6 +76,14 @@ class PersonalizationService:
 
             if changed_any:
                 commit_hash = await self._git_commit(user_id=user_id, cohort=changes.get("inferred", {}).get("cohort_guess", "unknown"))
+                
+                # NEW: Also version in Freestyle Git
+                try:
+                    commit_script = Path(__file__).parent.parent / "commit_to_freestyle.sh"
+                    subprocess.run([str(commit_script), user_id], check=True, cwd=str(commit_script.parent))
+                    print(f"✅ Pushed user {user_id} personalization to Freestyle Git")
+                except Exception as e:
+                    print(f"⚠️  Warning: Freestyle Git push failed: {e}")
 
             # 8) disable loading (no restore; files already updated)
             await self._disable_loading_page(backup_map)
