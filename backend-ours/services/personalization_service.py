@@ -50,6 +50,31 @@ class PersonalizationService:
                     components_context=components_context,
                     file_path=file_path
                 )
+                # Log exactly what is going to be sent to Morph based on Claude's response
+                try:
+                    morph_input_summary = {
+                        "file": file_path,
+                        "from_claude": {
+                            "instruction": changes.get("instruction", ""),
+                            "code_edit": changes.get("code_edit", ""),
+                            "inferred": changes.get("inferred", {}),
+                        },
+                    }
+                    self._write_log(
+                        f"morph-input-from-claude-{Path(file_path).name}.json",
+                        json.dumps(morph_input_summary, ensure_ascii=False)
+                    )
+                    print(
+                        f"[morph] {Path(file_path).name} "
+                        f"instruction_len={len(morph_input_summary['from_claude']['instruction'])} "
+                        f"code_edit_len={len(morph_input_summary['from_claude']['code_edit'])}"
+                    )
+                    instr_preview = (morph_input_summary['from_claude']['instruction'] or "")[:200].replace("\n", " ")
+                    edit_preview = (morph_input_summary['from_claude']['code_edit'] or "")[:200].replace("\n", " ")
+                    print(f"[morph] instruction_preview: {instr_preview}")
+                    print(f"[morph] code_edit_preview: {edit_preview}")
+                except Exception:
+                    pass
                 updated = await self._apply_with_morph(content, changes, file_path)
 
                 # If Morph made no changes, inject header comment as last resort
@@ -280,7 +305,11 @@ Respond JSON only with:
 
         payload = f"<instruction>{instruction}</instruction>\n<code>{original_content}</code>\n<update>{code_edit}</update>"
         self._write_log(f"morph-request-{Path(file_path).name}.txt", payload[:50000])
-
+        try:
+            print(f"[morph] sending payload for {Path(file_path).name} chars={len(payload)}")
+        except Exception:
+            pass
+        
         try:
             resp = self.morph.chat.completions.create(
                 model="morph-v3-large",
